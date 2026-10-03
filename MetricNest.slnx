@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MetricNest.Api/MetricNest.Api.csproj" />
+    <Project Path="src/MetricNest.Application/MetricNest.Application.csproj" />
+    <Project Path="src/MetricNest.Domain/MetricNest.Domain.csproj" />
+  </Folder>
+</Solution>
