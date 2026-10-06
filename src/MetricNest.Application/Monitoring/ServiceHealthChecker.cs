@@ -1,14 +1,19 @@
+using MetricNest.Application.Services;
 using MetricNest.Domain.Enums;
 
 namespace MetricNest.Application.Monitoring;
 
-public sealed class ServiceHealthChecker
+public sealed class ServiceHealthChecker : IServiceHealthChecker
 {
     private readonly HttpClient _httpClient;
+    private readonly ServiceHealthEvaluator _healthEvaluator;
 
-    public ServiceHealthChecker(HttpClient httpClient)
+    public ServiceHealthChecker(
+        HttpClient httpClient,
+        ServiceHealthEvaluator healthEvaluator)
     {
         _httpClient = httpClient;
+        _healthEvaluator = healthEvaluator;
     }
 
     public async Task<ServiceStatus> CheckAsync(
@@ -21,17 +26,8 @@ public sealed class ServiceHealthChecker
                 url,
                 cancellationToken);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return ServiceStatus.Healthy;
-            }
-
-            if ((int)response.StatusCode >= 500)
-            {
-                return ServiceStatus.Down;
-            }
-
-            return ServiceStatus.Degraded;
+            return _healthEvaluator.Evaluate(
+                (int)response.StatusCode);
         }
         catch (HttpRequestException)
         {
