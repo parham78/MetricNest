@@ -4,4 +4,7 @@
     <Project Path="src/MetricNest.Application/MetricNest.Application.csproj" />
     <Project Path="src/MetricNest.Domain/MetricNest.Domain.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MetricNest.Application.Tests/MetricNest.Application.Tests.csproj" />
+  </Folder>
 </Solution>
